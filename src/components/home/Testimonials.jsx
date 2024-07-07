@@ -8,7 +8,7 @@ function Testimonials() {
         <h1 className="md:text-4xl text-2xl  font-bold text-text border-b-2 border-text-secondary py-2 tracking-wide">
           Testiminals
         </h1>
-        <div className="grid grid-cols-1  md:grid-cols-3 gap-10 px-20 py-5 w-full">
+        <div className="grid grid-cols-1  md:grid-cols-3 gap-10 md:px-20 py-5 w-full">
           {testimonials.map((data) => (
             <TestimonialItems key={data.id} data={data} />
           ))}
