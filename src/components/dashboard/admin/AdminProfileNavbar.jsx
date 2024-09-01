@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import image from "../../../assets/images/img/profile-2.jpg";
 import { BiCaretDown } from "react-icons/bi";
 import { Link } from "react-router-dom";

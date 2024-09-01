@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 // src/components/Sidebar.js
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/images/logos/logo_transparent-2.png";
 import {
@@ -10,7 +10,6 @@ import {
   HiOutlineDocumentReport,
   HiOutlineNewspaper,
   HiOutlineTemplate,
-  HiOutlinePhotograph,
   HiOutlineBell,
   HiOutlineCog,
   HiOutlineQuestionMarkCircle,
@@ -18,7 +17,7 @@ import {
 } from "react-icons/hi";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { CgClose } from "react-icons/cg";
-import Modal from "react-modal";
+// import Modal from "react-modal";
 
 const AdminMenuSidebar = ({ setOpen }) => {
   return (

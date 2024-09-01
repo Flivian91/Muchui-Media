@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CreatePost from "../../common/CreatePost";
 import NotificationIcon from "../../common/NotificationIcon";
 import AdminProfileNavbar from "./AdminProfileNavbar";

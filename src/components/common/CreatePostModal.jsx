@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -44,6 +45,8 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [image, setImage] = useState("")
+  const [author, setAuthor] = useState('admin')
   const ref = useCloseModel(onRequestClose);
 
   const handleContentChange = (value) => {
@@ -55,11 +58,15 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
       title,
       category,
       content,
+      image,
+      author
     };
     onSubmit(newPost);
     setContent("");
     setTitle("");
     setCategory("");
+    setImage("")
+    setAuthor('admin')
     onRequestClose();
   };
 
@@ -78,7 +85,7 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       contentLabel="Create Post Modal"
     >
-      <div ref={ref} className="bg-white p-6 rounded-lg w-full max-w-2xl">
+      <div ref={ref} className="bg-white p-6 rounded-lg w-full max-w-2xl h-screen overflow-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">Create Post</h2>
           <button
@@ -117,6 +124,19 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
               <option value="health">Health</option>
               <option value="science">Science</option>
             </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="image" className="text-base font-semibold">
+              Upload cover image
+            </label>
+            <input
+              type="file"
+              name="image"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              id="image"
+              className="file:bg-pink-500 file:border-none file:py-1 file:rounded-sm file:text-text file:focus:outline-none file:focus:border-none file:ring-0 file:outline-none "
+            />
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="content" className="text-base font-semibold">

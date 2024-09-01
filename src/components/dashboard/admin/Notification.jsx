@@ -1,5 +1,5 @@
 // src/components/Notifications.js
-import React, { useState } from "react";
+import { useState } from "react";
 import { BiCheckCircle, BiTrash } from "react-icons/bi";
 import { FiFilter } from "react-icons/fi";
 import { useCloseModel } from "../../../hooks/useCloseModel";

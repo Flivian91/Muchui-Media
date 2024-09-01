@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useCloseModel } from "../../hooks/useCloseModel";
 import { GiCancel } from "react-icons/gi";
@@ -8,17 +8,27 @@ import { GrFormView, GrFormViewHide } from "react-icons/gr";
 // Ensure the modal root element is set for accessibility
 Modal.setAppElement("#root");
 
-const AddUserModal = ({ isOpen, onRequestClose, onSubmit }) => {
+const EditUserModel = ({ isOpen, onRequestClose, onSubmit, data }) => {
+  const name = data.username;
   const [showPass, setShowPass] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState(name);
+  const [password, setPassword] = useState(data.password);
+  const [email, setEmail] = useState(data.email);
   const ref = useCloseModel(onRequestClose);
+  useEffect(
+    function () {
+      setEmail(data.email);
+      setUsername(data.username);
+      setPassword(data.password);
+    },
+    [data]
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === "" && password === "" && username.length <= 2) {
-      onSubmit({ username, password, email });
+    if (username && password) {
+      const updatedUser = { id: data.id, username, password, email };
+      onSubmit(updatedUser);
       setUsername("");
       setPassword("");
       setEmail("");
@@ -41,7 +51,7 @@ const AddUserModal = ({ isOpen, onRequestClose, onSubmit }) => {
         className="bg-white px-2 py-4 md:p-6 rounded md:rounded-lg w-full max-w-md"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Add User</h2>
+          <h2 className="text-2xl font-bold">Edit User</h2>
           <button
             onClick={onRequestClose}
             className="text-gray-500 hover:text-gray-700"
@@ -126,4 +136,4 @@ const AddUserModal = ({ isOpen, onRequestClose, onSubmit }) => {
   );
 };
 
-export default AddUserModal;
+export default EditUserModel;

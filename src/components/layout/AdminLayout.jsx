@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import AdminSidebar from "../dashboard/admin/AdminSidebar";
 import AdminNavbar from "../dashboard/admin/AdminNavbar";
 import AdminMenuSidebar from "../dashboard/admin/AdminMenuSidebar";
-import { useCloseModel } from "../../hooks/useCloseModel";
+// import { useCloseModel } from "../../hooks/useCloseModel";
 
 const AdminLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useCloseModel(setIsOpen);
+  // const ref = useCloseModel(setIsOpen);
   return (
     <div className="grid lg:grid-cols-[240px_1fr]">
       <div className="row-span-full hidden lg:block ">

@@ -1,5 +1,4 @@
 // src/components/Sidebar.js
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/images/logos/logo_transparent-2.png";
 import {
@@ -10,7 +9,6 @@ import {
   HiOutlineDocumentReport,
   HiOutlineNewspaper,
   HiOutlineTemplate,
-  HiOutlinePhotograph,
   HiOutlineBell,
   HiOutlineCog,
   HiOutlineQuestionMarkCircle,

@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
 import AdminSearchBar from "./AdminSearchBar";
 import AdminProfileSection from "./AdminProfileSection";
 import { BiMenu } from "react-icons/bi";

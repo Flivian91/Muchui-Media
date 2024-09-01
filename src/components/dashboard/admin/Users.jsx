@@ -1,96 +1,71 @@
 // src/components/Users.js
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import UsersItem from "../../common/UsersItem";
 import AddUserModal from "../../common/AddUserModal";
-export const users = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@gmail.com",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane.smith@yahoo.com",
-  },
-  {
-    id: 3,
-    name: "Alice Johnson",
-    email: "alice.johnson@hotmail.com",
-  },
-  {
-    id: 4,
-    name: "Bob Brown",
-    email: "bob.brown@aol.com",
-  },
-  {
-    id: 5,
-    name: "Charlie Davis",
-    email: "charlie.davis@gmail.com",
-  },
-  {
-    id: 6,
-    name: "Dana Evans",
-    email: "dana.evans@outlook.com",
-  },
-  {
-    id: 7,
-    name: "Eve Franklin",
-    email: "eve.franklin@icloud.com",
-  },
-  {
-    id: 8,
-    name: "Frank Green",
-    email: "frank.green@gmail.com",
-  },
-  {
-    id: 9,
-    name: "Grace Hall",
-    email: "grace.hall@yahoo.com",
-  },
-  {
-    id: 10,
-    name: "Henry Ingram",
-    email: "henry.ingram@hotmail.com",
-  },
-  {
-    id: 11,
-    name: "Ivy James",
-    email: "ivy.james@aol.com",
-  },
-  {
-    id: 12,
-    name: "Jack Kelly",
-    email: "jack.kelly@gmail.com",
-  },
-  {
-    id: 13,
-    name: "Karen Lee",
-    email: "karen.lee@outlook.com",
-  },
-  {
-    id: 14,
-    name: "Liam Martin",
-    email: "liam.martin@icloud.com",
-  },
-  {
-    id: 15,
-    name: "Mona Nelson",
-    email: "mona.nelson@gmail.com",
-  },
-];
-
+import { supabase } from "../../../supabase/supabaseClient";
+import LoadingSpinner from "../../common/LoadingSpinner";
+import EditUserModel from "../../common/EditUserModel";
 const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [updateData, setUpdateData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [users, setUsers] = useState([]);
 
-  const handleAddUser = (user) => {
-    console.log("New User:", user);
-  };
+  // Load users From supabase database
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  async function fetchUsers() {
+    try {
+      setIsLoading(true);
+      const { data } = await supabase
+        .from("Users")
+        .select("id, username, password,email");
+      setUsers(data);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // Create new User
+  async function createNewUser(user) {
+    const { error } = await supabase.from("Users").insert(user);
+    fetchUsers();
+    if (error) {
+      alert(error.message);
+    }
+  }
+  // Update User Data
+  async function updateUserData(data) {
+    const { error } = await supabase.from("Users").upsert(data);
+    fetchUsers();
+    if (error) {
+      alert(error.message);
+    }
+  }
+  // Delete User data
+  async function deleteUserData(id){
+    await supabase.from("Users").delete().eq('id', id)
+    fetchUsers()
+  }
+  
+  // Update handler
+  function handleUpdateUser(id) {
+    setIsEditOpen(true);
+    const userToUpdate = users.find((user) => user.id === id);
+    setUpdateData(userToUpdate);
+  }
+  // Search functionality
+  function handleSearch(query){
+
+  }
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Users</h1>
       <div className="flex justify-between items-center mb-4">
-      <input
+        <input
           type="text"
           placeholder="Search user..."
           className="p-2 border border-secondary w-28 md:w-40 focus:w-44 transition-all duration-300 text-sm sm:text-base focus:border-secondary rounded outline-none focus:outline-none focus:ring-0"
@@ -104,21 +79,40 @@ const Users = () => {
         <AddUserModal
           isOpen={isModalOpen}
           onRequestClose={() => setIsModalOpen(false)}
-          onSubmit={handleAddUser}
+          onSubmit={createNewUser}
+        />
+        <EditUserModel
+          isOpen={isEditOpen}
+          onRequestClose={() => setIsEditOpen(false)}
+          onSubmit={updateUserData}
+          data={updateData}
         />
       </div>
       <div className="min-w-full bg-white rounded  ">
-        <div className=" grid grid-cols-[0.6fr_0.8fr_1.8fr_0.2fr] items-center justify-center border-b px-4 py-3 font-bold text-sm md:text-base text-text">
-          <span>ID</span>
-          <span>Name</span>
-          <span>Email</span>
-          <span>Actions</span>
-        </div>
-        <div className="flex flex-col gap-2 divide-y pb-12">
-          {users.map((user) => (
-            <UsersItem key={user.id} user={user} />
-          ))}
-        </div>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            {" "}
+            <div className=" grid grid-cols-[0.6fr_0.8fr_1.8fr_0.2fr] items-center justify-center border-b px-4 py-3 font-bold text-sm md:text-base text-text">
+              <span>ID</span>
+              <span>Name</span>
+              <span>Email</span>
+              <span>Actions</span>
+            </div>
+            <div className="flex flex-col gap-2 divide-y pb-12">
+              {users.map((user, i) => (
+                <UsersItem
+                  key={user.id}
+                  user={user}
+                  index={i}
+                  onUpdate={handleUpdateUser}
+                  onDelete= {deleteUserData}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

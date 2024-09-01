@@ -1,5 +1,4 @@
 // src/components/Posts.js
-import React from "react";
 import { articles } from "../../../data/article";
 import PostsItems from "../../common/PostsItems";
 import CreatePost from "../../common/CreatePost";

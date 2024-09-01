@@ -1,24 +1,28 @@
 // src/components/ContactSupport.js
-import React from 'react';
+// import React from 'react';
 
 const ContactSupport = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Contact Support</h1>
-      <form className="bg-white p-4 rounded shadow">
+    <div className="flex items-center justify-center flex-col gap-4">
+      <h1 className="sm:text-2xl text-xl font-bold tracking-wide ">
+        Contact Support
+      </h1>
+      <form className="bg-white p-4 rounded flex flex-col gap-4 shadow w-full sm:w-3/4">
         <div className="mb-4">
           <label className="block text-gray-700">Name</label>
-          <input type="text" className="p-2 border rounded w-full" />
+          <input type="text" required className="p-2 border rounded w-full" />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Email</label>
-          <input type="email" className="p-2 border rounded w-full" />
+          <input type="email" required className="p-2 border rounded w-full" />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700">Message</label>
-          <textarea className="p-2 border rounded w-full"></textarea>
+          <textarea required className="p-2 border rounded w-full"></textarea>
         </div>
-        <button className="bg-blue-500 text-white p-2 rounded">Send Message</button>
+        <button className="bg-blue-500 text-white p-2 rounded">
+          Send Message
+        </button>
       </form>
     </div>
   );
