@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { GiCancel } from "react-icons/gi";
 import { useCloseModel } from "../../hooks/useCloseModel";
@@ -14,7 +15,7 @@ const AddRoleModal = ({ isOpen, onRequestClose, onSubmit, users }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedUser && roleName) {
-      onSubmit({ user: selectedUser, roleName, permissions });
+      onSubmit({ user_id: selectedUser, role:roleName, permissions });
       setSelectedUser("");
       setRoleName("");
       setPermissions("");
@@ -62,7 +63,7 @@ const AddRoleModal = ({ isOpen, onRequestClose, onSubmit, users }) => {
             >
               {users.map((user) => (
                 <option key={user.id} value={user.id}>
-                  {user.name}
+                  {user.username}
                 </option>
               ))}
             </select>

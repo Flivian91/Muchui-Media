@@ -1,21 +1,58 @@
 // src/components/Roles.js
-import React, { useState } from "react";
-import { BiCheckCircle, BiCopy, BiEdit, BiTrash } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { BiEdit, BiTrash } from "react-icons/bi";
+
 import AddRoleModal from "../../common/AddRoleModel";
+import { supabase } from "../../../supabase/supabaseClient";
 
 const Roles = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [users, setUsers] = useState([
-    { id: 1, name: "John Doe", role: "Admin" },
-    { id: 2, name: "Jane Smith", role: "user" },
-    // Add more users here
-  ]);
+  const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
 
   const handleAddRole = (role) => {
     console.log("New Role:", role);
     // Add logic to handle the new role data (e.g., save to database)
   };
+
+  // Load the current users on the database
+  async function loadCurrentusers() {
+    const { data, error } = await supabase.from("Users").select("id, username");
+    setUsers(data);
+    if (error) {
+      alert(error.message);
+    }
+  }
+  useEffect(function () {
+    loadCurrentusers();
+  }, []);
+
+  // Fetch Available roles
+  async function fetchRoles() {
+    const { data, error } = await supabase.from("UsersRoles").select("*");
+    setRoles(data);
+    if (error) {
+      alert(error.message);
+    }
+  }
+  useEffect(() => {
+    fetchRoles();
+  }, []);
+
+  // Insert New Role and permission
+  async function createNewRole(data) {
+    const { error } = await supabase.from("UsersRoles").insert(data);
+    if (error) {
+      alert(error.message);
+    }
+  }
+  // Update the Roles
+  async function updateRoles(updatedData) {
+    const { error } = await supabase.from("UsersRoles").upsert(updatedData);
+    if (error) {
+      alert(error.message);
+    }
+  }
 
   return (
     <div>
@@ -35,7 +72,7 @@ const Roles = () => {
         <AddRoleModal
           isOpen={isModalOpen}
           onRequestClose={() => setIsModalOpen(false)}
-          onSubmit={handleAddRole}
+          onSubmit={createNewRole}
           users={users}
         />
       </div>
