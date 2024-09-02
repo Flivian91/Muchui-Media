@@ -10,8 +10,10 @@ const Users = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [updateData, setUpdateData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("");
   const [users, setUsers] = useState([]);
-
+  // const [numRecord, setNumRecord] = useState(false);
+  let searchedUsers = users;
   // Load users From supabase database
   useEffect(() => {
     fetchUsers();
@@ -46,11 +48,11 @@ const Users = () => {
     }
   }
   // Delete User data
-  async function deleteUserData(id){
-    await supabase.from("Users").delete().eq('id', id)
-    fetchUsers()
+  async function deleteUserData(id) {
+    await supabase.from("Users").delete().eq("id", id);
+    fetchUsers();
   }
-  
+
   // Update handler
   function handleUpdateUser(id) {
     setIsEditOpen(true);
@@ -58,15 +60,26 @@ const Users = () => {
     setUpdateData(userToUpdate);
   }
   // Search functionality
-  function handleSearch(query){
-
+  function handleSearch(text) {
+    if (text.length < 2) return;
+    searchedUsers = users.filter((user) =>
+      user.username.toLowerCase().includes(text.toLowerCase())
+    );
+    if (searchedUsers.length === 0) {
+      // setNumRecord(true);
+      console.log("No record");
+    }
+    // setNumRecord(false);
   }
+  handleSearch(query);
+  console.log(searchedUsers);
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Users</h1>
       <div className="flex justify-between items-center mb-4">
         <input
           type="text"
+          onChange={(e) => setQuery(e.target.value)}
           placeholder="Search user..."
           className="p-2 border border-secondary w-28 md:w-40 focus:w-44 transition-all duration-300 text-sm sm:text-base focus:border-secondary rounded outline-none focus:outline-none focus:ring-0"
         />
@@ -101,13 +114,13 @@ const Users = () => {
               <span>Actions</span>
             </div>
             <div className="flex flex-col gap-2 divide-y pb-12">
-              {users.map((user, i) => (
+              {searchedUsers.map((user, i) => (
                 <UsersItem
                   key={user.id}
                   user={user}
                   index={i}
                   onUpdate={handleUpdateUser}
-                  onDelete= {deleteUserData}
+                  onDelete={deleteUserData}
                 />
               ))}
             </div>

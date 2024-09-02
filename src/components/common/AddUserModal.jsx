@@ -17,7 +17,7 @@ const AddUserModal = ({ isOpen, onRequestClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === "" && password === "" && username.length <= 2) {
+    if (username && password) {
       onSubmit({ username, password, email });
       setUsername("");
       setPassword("");
