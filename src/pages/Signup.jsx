@@ -1,7 +1,7 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  
   return (
     <div className="min-h-screen flex items-center justify-center md:w-1/3 w-full bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">

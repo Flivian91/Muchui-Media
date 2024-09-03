@@ -56,7 +56,7 @@ const Users = () => {
   // Update handler
   function handleUpdateUser(id) {
     setIsEditOpen(true);
-    const userToUpdate = users.find((user) => user.id === id);
+    const userToUpdate = users.find((user) => user .id === id);
     setUpdateData(userToUpdate);
   }
   // Search functionality
@@ -72,7 +72,6 @@ const Users = () => {
     // setNumRecord(false);
   }
   handleSearch(query);
-  console.log(searchedUsers);
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Users</h1>
