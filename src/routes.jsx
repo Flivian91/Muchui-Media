@@ -29,6 +29,13 @@ import ContactSupport from "./components/dashboard/admin/ContactSupport";
 import Testimonials from "./components/dashboard/admin/Testimonials";
 import FAQs from "./components/dashboard/admin/FAQs";
 import ProtectedRoute from "./Routes/ProtectedRoutes";
+import ClientNotifications from "./components/dashboard/client/ClientNotifications";
+import ClientPosts from "./components/dashboard/client/ClientPosts";
+import ClientSettings from "./components/dashboard/client/ClientSettings";
+import ClientSettingsProfile from "./components/dashboard/client/ClientSettingsProfile";
+import ClientSettingsAccount from "./components/dashboard/client/ClientSettingsAccount";
+import ClientSettingsCustomization from "./components/dashboard/client/ClientSettingsCustomization";
+// import ErrorMessage from "./components/common/ErrorMessage";
 
 const RoutesLink = () => {
   return (
@@ -45,13 +52,14 @@ const RoutesLink = () => {
         path="/signup"
         element={
           <AuthLayout>
+            {/* <ErrorMessage isOpen={true} /> */}
             <SignUp />
           </AuthLayout>
         }
       />
-      
+
       {/* Protect admin routes */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute requiredRole="admin" />}>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="/admin/users" element={<Users />} />
@@ -70,15 +78,32 @@ const RoutesLink = () => {
       </Route>
 
       {/* Protect client routes */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute requiredRole="client" />}>
         <Route path="/client" element={<ClientLayout />}>
           <Route index element={<ClientDashboard />} />
-          <Route path="/client/profile" element={<ClientDashboard />} />
-          <Route path="/client/posts" element={<ClientDashboard />} />
-          <Route path="/client/settings" element={<ClientDashboard />} />
+          <Route path="/client/posts" element={<ClientPosts />} />
+          <Route
+            path="/client/notifications"
+            element={<ClientNotifications />}
+          />
+          <Route path="/client/settings" element={<ClientSettings />}>
+            <Route index element={<ClientSettingsProfile />} />
+            <Route
+              path="/client/settings/profile"
+              element={<ClientSettingsProfile />}
+            />
+            <Route
+              path="/client/settings/customization"
+              element={<ClientSettingsCustomization />}
+            />
+            <Route
+              path="/client/settings/account"
+              element={<ClientSettingsAccount />}
+            />
+          </Route>
         </Route>
       </Route>
-      
+
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />

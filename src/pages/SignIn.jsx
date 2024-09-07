@@ -1,11 +1,14 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabase/supabaseClient";
+import { GrFormView, GrFormViewHide } from "react-icons/gr";
+import { FcGoogle } from "react-icons/fc";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null); // To track the authenticated user
+  const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
   function handleSubmit(e) {
@@ -46,54 +49,101 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen flex items-center md:w-1/3 w-full justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
+      <div className="bg-white px-5 pt-6 rounded-lg shadow-lg w-full max-w-md flex flex-col gap-4">
+        <h2 className="text-3xl tracking-wide text-text font-bold text-center">
+          Sign In
+        </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="email"
-              className="block text-text tracking-wide font-medium "
-            >
-              Email
-            </label>
+          <div
+            className={`border-[1.5px] rounded-[6px]  relative px-2 py-1 ${
+              email.length > 4
+                ? "border-blue-500 "
+                : " border-text-secondary/80"
+            }`}
+          >
             <input
               type="email"
               id="email"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all duration-300"
+              className="peer w-full px-3 py-2 border-0 font-mono tracking-wide rounded focus:outline-none focus:ring-0 focus:ring-primary"
               required
+              onChange={(e) => setEmail(e.target.value)}
             />
+            <label
+              htmlFor="email"
+              className={`block absolute text-lg font-semibold tracking-wide  transform -translate-y-1/2 peer-focus:top-0 ${
+                email.length > 0 ? " -top-[2px] " : "top-1/2 "
+              } px-1  bg-white transition-all duration-200 peer-focus:text-blue-500 select-none  text-gray-700`}
+            >
+              Email
+            </label>
           </div>
-          <div className="flex flex-col gap-2">
+          <div
+            className={`border-[1.5px] rounded-[6px] flex  relative px-2 py-1 ${
+              password.length > 4
+                ? "border-blue-500 "
+                : " border-text-secondary/80"
+            }`}
+          >
+            <input
+              type={showPass ? "text" : "password"}
+              id="password"
+              name="password"
+              className="peer w-full px-3 py-2 border-0 font-mono tracking-wide rounded focus:outline-none focus:ring-0 focus:ring-primary"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <label
               htmlFor="password"
-              className="text-text tracking-wide font-medium "
+              className={`block absolute text-lg font-semibold tracking-wide  transform -translate-y-1/2 peer-focus:top-0 ${
+                password.length > 0 ? " -top-[2px] " : "top-1/2 "
+              } px-1 bg-white transition-all duration-200 peer-focus:text-blue-500 select-none  text-gray-700`}
             >
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all duration-300"
-              required
-            />
+            <button
+              type="button"
+              role="button"
+              onClick={() => setShowPass((prev) => !prev)}
+              className="px-2 text-gray-500 transform hover:scale-105 hover:text-gray-600 transition-all duration-300 "
+            >
+              {showPass ? (
+                <GrFormViewHide fontSize={24} />
+              ) : (
+                <GrFormView fontSize={24} />
+              )}
+            </button>
           </div>
           <button
             type="submit"
-            className="w-full bg-primary text-white py-2 rounded-sm hover:bg-primary-dark transition duration-200"
+            className="w-full bg-primary text-white py-2 rounded-[6px] text-md tracking-wide font-bold  hover:bg-primary-dark transition duration-200"
           >
             Sign In
           </button>
         </form>
-        <div className="mt-4 text-center">
-          <Link to="/signup" className="text-primary hover:underline">
+        <div className="text-center">
+          <Link
+            to="/signup"
+            className="text-primary  transition-all duration-200 hover:underline"
+          >
             Don&apos;t have an account? Sign Up
           </Link>
+        </div>
+        <div>
+          <button className="flex items-center justify-center transition-all duration-300 shadow-sm gap-2 w-full hover:border-blue-400 border py-2 rounded-[6px]">
+            <FcGoogle />{" "}
+            <span className="text-text font-semibold tracking-wide">
+              Sign in with google
+            </span>
+          </button>
+        </div>
+        <div className="mt-3 pb-4">
+          <p className="text-sm text-center text-text-secondary font-semibold tracking-wider">
+            By signing up to create an account i accept Company`s{" "}
+            <Link className="text-blue-500 font-bold hover:underline focus:underline-offset-1 transition-all duration-200">
+              Terms of Use and Privacy Policy
+            </Link>
+          </p>
         </div>
       </div>
     </div>

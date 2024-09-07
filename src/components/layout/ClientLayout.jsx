@@ -1,17 +1,19 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
+// import ClientFooter from "../dashboard/client/ClientFooter";
+import ClientSidebar from "../dashboard/client/ClientSidebar";
 import ClientNavbar from "../dashboard/client/ClientNavbar";
-import ClientFooter from "../dashboard/client/ClientFooter";
 
 const ClientLayout = () => {
   return (
-    <>
-      <ClientNavbar />
-      <main className="min-h-screen bg-gray-100">
-        <Outlet />
+    <div className="grid grid-cols-[230px_1fr] h-screen">
+      <ClientSidebar />
+      <main className="min-h-screen bg-gray-100 flex flex-col">
+        <ClientNavbar />
+        <section className="flex-grow overflow-auto">
+          <Outlet />
+        </section>
       </main>
-      <ClientFooter />
-    </>
+    </div>
   );
 };
 

@@ -1,22 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import ClientProfile from "./ClientProfile";
+import ClientSearchBar from "./ClientSearchBar";
 
-const ClientNavbar = () => {
+function ClientNavbar() {
   return (
-    <nav className="bg-white shadow-lg">
-      <div className="container mx-auto p-4 flex flex-col">
-        <div className="text-xl font-bold">
-          <Link to="/client">Client Dashboard</Link>
-        </div>
-        <div className="space-x-4 flex flex-col">
-          <Link to="/client" className="hover:text-primary">Home</Link>
-          <Link to="/client/profile" className="hover:text-primary">Profile</Link>
-          <Link to="/client/posts" className="hover:text-primary">My Posts</Link>
-          <Link to="/client/settings" className="hover:text-primary">Settings</Link>
-        </div>
-      </div>
+    <nav className="flex items-center justify-between py-2 bg-surface px-2">
+      <ClientSearchBar />
+      <ClientProfile />
     </nav>
   );
-};
+}
 
 export default ClientNavbar;
