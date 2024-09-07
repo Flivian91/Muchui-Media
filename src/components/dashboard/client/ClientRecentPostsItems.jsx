@@ -3,7 +3,7 @@ import { BsEye } from "react-icons/bs";
 
 function ClientRecentPostsItems() {
   return (
-    <div className="grid grid-cols-[0.2fr_1.5fr_0.8fr_1fr] gap-2 items-center even:bg-background hover:bg-secondary/40 cursor-pointer rounded-sm transition-all duration-200">
+    <div className="grid grid-cols-[0.2fr_2fr_0.8fr_1fr] gap-2 items-center even:bg-background hover:bg-secondary/40 cursor-pointer rounded-sm transition-all duration-200">
       <span className="text-sm font-semibold font-mono px-1">01</span>
       <span className="truncate text-text-secondary font-semibold tracking-wide">
         About what is Going on difukgiudasflgfdslkjdsdks

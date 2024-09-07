@@ -5,7 +5,7 @@ import ClientNavbar from "../dashboard/client/ClientNavbar";
 
 const ClientLayout = () => {
   return (
-    <div className="grid grid-cols-[230px_1fr] h-screen">
+    <div className="grid md:grid-cols-[230px_1fr]">
       <ClientSidebar />
       <main className="min-h-screen bg-gray-100 flex flex-col">
         <ClientNavbar />

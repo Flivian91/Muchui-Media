@@ -8,7 +8,7 @@ import ClientWelcomeMessage from "./ClientWelcomeMessage";
 
 function ClientDashboard() {
   return (
-    <section className="grid grid-cols-[1fr_0.5fr] gap-3 px-2 py-2">
+    <section className="grid lg:grid-cols-[1fr_0.5fr] gap-3 px-2 py-2">
       <div className="flex flex-col gap-4">
         <ClientWelcomeMessage />
         <ClientStats />

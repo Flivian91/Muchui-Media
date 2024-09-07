@@ -42,7 +42,7 @@ function ClientSettingsProfile() {
           <textarea
             className="text-text font-mono text-lg py-1 border rounded focus:ring-0 ring-0 focus:border border-text-secondary/90  focus:border-secondary transition-all duration-200"
             type="text"
-            id="name"
+            id="bio"
           ></textarea>
         </div>
         <div className="flex flex-col gap-1 px-2">
@@ -53,12 +53,12 @@ function ClientSettingsProfile() {
             Upload Profile
           </label>
           <div className="flex  items-center gap-5">
-            <img className="w-16 h-16" src={img} alt="" />
+            <img className="w-16 h-16" src={img} alt="Profile image" />
             <input
               className="file:bg-secondary file:border-none file:rounded file:text-white file:font-bold file:px-2"
               type="file"
-              name=""
-              id=""
+              name="image"
+              id="image"
             />
           </div>
         </div>

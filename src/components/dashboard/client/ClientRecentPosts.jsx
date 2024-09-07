@@ -9,7 +9,7 @@ function ClientRecentPosts() {
         Recent Posts
       </h1>
       <div className="flex flex-col gap-2">
-        <div className="grid grid-cols-[0.2fr_1.5fr_0.8fr_1fr] gap-2 items-center ">
+        <div className="grid grid-cols-[0.2fr_2fr_0.8fr_1fr] gap-2 items-center ">
           <span className="font-bold text-sm text-text px-1">No.</span>
           <span className="font-bold text-sm text-text">Title</span>
           <span className="font-bold text-sm text-text">Date</span>

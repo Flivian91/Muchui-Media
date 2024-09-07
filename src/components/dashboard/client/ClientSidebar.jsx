@@ -8,7 +8,7 @@ import { BiLogOut } from "react-icons/bi";
 
 function ClientSidebar() {
   return (
-    <aside className="flex flex-col gap-5 py-4">
+    <aside className=" flex-col gap-5 py-4 hidden md:flex">
       <div className="shadow-sm py-2 px-4">
         <Logo />
       </div>
