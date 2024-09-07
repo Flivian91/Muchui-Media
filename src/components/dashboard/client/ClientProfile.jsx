@@ -25,7 +25,7 @@ function ClientProfile() {
           Client
         </span>
       </Link>
-      <Link to={'client/settings/profile'}>
+      <Link to={"/client/settings/profile"}>
         <img
           className="w-10 h-10 rounded-full border-2 border-secondary"
           src={profile}

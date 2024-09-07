@@ -5,7 +5,7 @@ function ClientSettingsCustomization() {
         <h1 className="text-2xl font-bold tracking-wide text-text">
           Appearance
         </h1>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col lg:flex-row gap-2 items-center justify-between">
           <div className="flex items-center gap-2 bg-surface shadow rounded px-4 py-5 w-64">
             <input
               className="cursor-pointer "

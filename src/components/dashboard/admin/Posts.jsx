@@ -13,7 +13,7 @@ const Posts = () => {
           placeholder="Search post..."
           className="p-2 border border-secondary w-28 md:w-40 focus:w-44 transition-all duration-300 text-sm sm:text-base focus:border-secondary rounded outline-none focus:outline-none focus:ring-0"
         />
-        <CreatePost>Add Post</CreatePost>
+        <CreatePost role={'add'}>Add Post</CreatePost>
       </div>
       <div className="min-w-full bg-inherit flex-grow">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">

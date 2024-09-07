@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import  { useState } from "react";
+import { useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import CreatePostModal from "./CreatePostModal";
 
-function CreatePost({children}) {
+function CreatePost({ children, role }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -22,7 +22,9 @@ function CreatePost({children}) {
     <>
       <button
         onClick={handleOpenModal}
-        className="px-2 py-2 hidden text-white  text-base font-bold bg-secondary hover:bg-secondary/80 transition-all duration-200 rounded uppercase md:flex items-center gap-3"
+        className={`px-2 py-2 ${
+          role === "add" ? " flex" : "hidden "
+        }  text-white  text-base font-bold bg-secondary hover:bg-secondary/80 transition-all duration-200 rounded uppercase md:flex items-center gap-3`}
       >
         <BiPlusCircle fontSize={23} />
         {children}

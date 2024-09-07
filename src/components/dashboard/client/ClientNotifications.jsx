@@ -114,7 +114,7 @@ const ClientNotifications = () => {
       <h1 className="text-3xl font-bold">All Nofitications</h1>
 
       <div className="flex justify-between">
-        <div className="space-x-4">
+        <div className="flex gap-1">
           <button
             onClick={() => setFilter("all")}
             className={`px-4 py-2 rounded ${
@@ -144,7 +144,7 @@ const ClientNotifications = () => {
           <button
             onClick={() => setIsOpen((prev) => !prev)}
             type="button"
-            className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+            className="inline-flex justify-center  md:w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
             id="menu-button"
             aria-expanded="true"
             aria-haspopup="true"

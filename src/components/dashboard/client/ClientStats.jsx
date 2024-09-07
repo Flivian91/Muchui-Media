@@ -8,9 +8,9 @@ function ClientStats() {
         <span className="p-2 rounded-full bg-surface">
           <HiOutlineNewspaper fontSize={23} />
         </span>
-        <div className="flex flex-col items-center gap-1 border-l border-gray-400 pl-3">
+        <div className="flex flex-col items-center  gap-1 border-l border-gray-400 pl-3">
           <p className="text-text font-bold text-sm text-center tracking-wider">
-            Total Posts
+            Posts
           </p>
           <span className="text-text font-bold font-mono tracking-wide">
             40
@@ -23,7 +23,7 @@ function ClientStats() {
         </span>
         <div className="flex flex-col items-center gap-1 border-l border-gray-400 pl-3">
           <p className="text-text font-bold text-sm text-center tracking-wide md:tracking-wider">
-            Total Comments
+            Comments
           </p>
           <span className="text-text font-bold font-mono tracking-wide">
             340
@@ -36,7 +36,7 @@ function ClientStats() {
         </span>
         <div className="flex flex-col items-center gap-1 border-l border-gray-400 pl-3">
           <p className="text-text font-bold text-sm text-center tracking-wider">
-            Total Likes
+            Likes
           </p>
           <span className="text-text font-bold font-mono tracking-wide">
             2000

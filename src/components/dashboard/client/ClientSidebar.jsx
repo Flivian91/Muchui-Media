@@ -53,7 +53,7 @@ function ClientSidebar() {
         </div>
         <div className=" flex flex-col gap-2 ">
           <Link
-            to={"/client/settings"}
+            to={"/client/settings/profile"}
             className="group flex shadow-none hover:shadow-sm transition-all duration-200 gap-2 items-center py-1 hover:text-white hover:bg-secondary rounded px-1"
           >
             <CiSettings

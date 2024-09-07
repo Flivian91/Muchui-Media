@@ -8,7 +8,7 @@ function ClientPostsSearchBar() {
       </button>
       <input
         type="text"
-        className="border-none w-full focus:border-none focus:ring-0 font-mono tracking-wide text-md placeholder:font-mono placeholder:text-text"
+        className="border-none w-24 focus:w-32 transition-all duration-300 md:w-full outline-none focus:border-none focus:ring-0 font-mono tracking-wide text-md placeholder:font-mono placeholder:text-text"
         placeholder="Search post by title"
       />
     </div>

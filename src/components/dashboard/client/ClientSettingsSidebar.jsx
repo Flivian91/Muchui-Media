@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 function ClientSettingsSidebar() {
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div className="flex flex-row lg:flex-col gap-2 items-center">
       <NavLink
         to={"/client/settings/profile"}
         className={({ isActive }) =>
