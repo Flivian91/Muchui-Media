@@ -1,6 +1,5 @@
 // src/components/Roles.js
 import { useEffect, useState } from "react";
-import { BiEdit, BiTrash } from "react-icons/bi";
 
 import AddRoleModal from "../../common/AddRoleModel";
 import { supabase } from "../../../supabase/supabaseClient";
@@ -14,7 +13,9 @@ const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [roleDataToUpdate, setRoleDataToUpdate] = useState({});
+  let searchedData = roles;
 
   // Load the current users on the database
   async function loadCurrentusers() {
@@ -45,7 +46,6 @@ const Roles = () => {
   useEffect(() => {
     fetchRoles();
   }, []);
-  console.log(roles);
 
   // Insert New Role and permission
   async function createNewRole(data) {
@@ -74,6 +74,13 @@ const Roles = () => {
     const userRole = roles.find((role) => role.id === id);
     setRoleDataToUpdate(userRole);
   }
+  // Function to handle searched results
+  function handleSearch(text) {
+    searchedData = roles.filter((role) =>
+      role.role.toLowerCase().includes(text.toLowerCase())
+    );
+  }
+  handleSearch(searchQuery);
 
   return (
     <div>
@@ -81,6 +88,7 @@ const Roles = () => {
       <div className="flex justify-between items-center mb-4">
         <input
           type="text"
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search permission..."
           className="p-2 border border-secondary w-28 md:w-40 focus:w-44 transition-all duration-300 text-sm sm:text-base focus:border-secondary rounded outline-none focus:outline-none focus:ring-0"
         />
@@ -117,7 +125,7 @@ const Roles = () => {
               <span>Actions</span>
             </div>
             <div>
-              {roles.length === 0 ? (
+              {searchedData.length === 0 ? (
                 <div className="flex items-center justify-center py-10">
                   <p className="text-text font-bold text-xl">
                     No record 😪😪☠️
@@ -125,11 +133,12 @@ const Roles = () => {
                 </div>
               ) : (
                 <div className="flex flex-col gap-2">
-                  {roles.map((role) => (
+                  {searchedData.map((role) => (
                     <RolesItems
                       onUpdate={handleUpdateRole}
                       key={role.id}
                       role={role}
+                      users={users}
                       onDelete={deleteRole}
                     />
                   ))}

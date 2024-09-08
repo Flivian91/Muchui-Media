@@ -24,7 +24,7 @@ const ProtectedRoute = (requiredRole) => {
         data: { user },
       } = await supabase.auth.getUser();
       let metadata = user.user_metadata;
-      console.log(metadata?.role);
+      // console.log(metadata?.role);
 
       if (metadata?.role) {
         setUserRole(metadata.role);

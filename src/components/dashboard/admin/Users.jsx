@@ -56,7 +56,7 @@ const Users = () => {
   // Update handler
   function handleUpdateUser(id) {
     setIsEditOpen(true);
-    const userToUpdate = users.find((user) => user .id === id);
+    const userToUpdate = users.find((user) => user.id === id);
     setUpdateData(userToUpdate);
   }
   // Search functionality
@@ -65,10 +65,7 @@ const Users = () => {
     searchedUsers = users.filter((user) =>
       user.username.toLowerCase().includes(text.toLowerCase())
     );
-    if (searchedUsers.length === 0) {
-      // setNumRecord(true);
-      console.log("No record");
-    }
+
     // setNumRecord(false);
   }
   handleSearch(query);
@@ -112,17 +109,23 @@ const Users = () => {
               <span>Email</span>
               <span>Actions</span>
             </div>
-            <div className="flex flex-col gap-2 divide-y pb-12">
-              {searchedUsers.map((user, i) => (
-                <UsersItem
-                  key={user.id}
-                  user={user}
-                  index={i}
-                  onUpdate={handleUpdateUser}
-                  onDelete={deleteUserData}
-                />
-              ))}
-            </div>
+            {searchedUsers.length === 0 ? (
+              <div className="flex items-center justify-center py-10">
+                <p className="text-text font-bold text-xl">No record 😪😪☠️</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 divide-y pb-12">
+                {searchedUsers.map((user, i) => (
+                  <UsersItem
+                    key={user.id}
+                    user={user}
+                    index={i}
+                    onUpdate={handleUpdateUser}
+                    onDelete={deleteUserData}
+                  />
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>

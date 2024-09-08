@@ -2,10 +2,11 @@
 /* eslint-disable react/prop-types */
 import { BiEdit, BiTrash } from "react-icons/bi";
 
-function RolesItems({ role, onUpdate, onDelete }) {
+function RolesItems({ role, onUpdate, onDelete, users }) {
+  const { username } = users.find((user) => user.id === role.user_id);
   return (
     <div className=" grid grid-cols-[1fr_0.8fr_1.8fr_0.3fr]  text-sm sm:text-base items-center text-text/80 font-semibold justify-center px-2 sm:px-4 py-1.5">
-      <span>{role.user_id}</span>
+      <span>{username}</span>
       <span>{role.role}</span>
       <span className="truncate">{role.permissions}</span>
       <div className="flex space-x-2 transition-all duration-200 ">
