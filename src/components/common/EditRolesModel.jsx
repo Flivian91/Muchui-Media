@@ -7,7 +7,7 @@ import { useCloseModel } from "../../hooks/useCloseModel";
 // Ensure the modal root element is set for accessibility
 Modal.setAppElement("#root");
 
-const AddRoleModal = ({ isOpen, onRequestClose, onSubmit, users }) => {
+const EditRolesModel = ({ isOpen, onRequestClose, onSubmit, users, data }) => {
   const [selectedUser, setSelectedUser] = useState("");
   const [roleName, setRoleName] = useState("");
   const [permissions, setPermissions] = useState("");
@@ -24,6 +24,14 @@ const AddRoleModal = ({ isOpen, onRequestClose, onSubmit, users }) => {
       alert("User and Role Name are required");
     }
   };
+  useEffect(
+    function () {
+      setSelectedUser(data.user_id);
+      setRoleName(data.role);
+      setPermissions(data.permissions);
+    },
+    [data]
+  );
 
   useEffect(() => {
     if (users.length > 0) {
@@ -111,4 +119,4 @@ const AddRoleModal = ({ isOpen, onRequestClose, onSubmit, users }) => {
   );
 };
 
-export default AddRoleModal;
+export default EditRolesModel;

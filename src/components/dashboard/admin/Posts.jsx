@@ -22,22 +22,9 @@ const Posts = () => {
           ))}
         </div>
       </div>
-      {/* <div className="py-5"></div> */}
     </div>
   );
 };
 
 export default Posts;
-{
-  /* <div className=" grid grid-cols-[0.2fr_1.8fr_1.2fr_0.2fr] gap-2 items-center justify-center border-b px-4 py-3 font-bold text-base text-text">
-          <span>ID</span>
-          <span>Title</span>
-          <span>Author</span>
-          <span>Actions</span>
-        </div>
-        <div className="flex flex-col gap-2 divide-y ">
-          {articles.map((post) => (
-            <PostsItems key={post.id} post={post} />
-          ))}
-        </div> */
-}
+
