@@ -25,7 +25,12 @@ const SignUp = () => {
     if (error) {
       alert(error.message);
     }
-    console.log(data);
+    const user = {
+      username: userName,
+      password: userPassword,
+      email: userEmail,
+    };
+    createNewUser(user);
     navigate("/signin");
   }
   function handleSubmit(e) {
@@ -38,6 +43,13 @@ const SignUp = () => {
       setPassword("");
     } else {
       console.log("Invalid User Information");
+    }
+  }
+  // Create new User
+  async function createNewUser(user) {
+    const { error } = await supabase.from("Users").insert(user);
+    if (error) {
+      alert(error.message);
     }
   }
 

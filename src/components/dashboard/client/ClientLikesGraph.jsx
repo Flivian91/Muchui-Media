@@ -62,7 +62,7 @@ const ClientLikesGraph = () => {
 
   return (
     <div>
-      <div className="bg-white hidden rounded shadow">
+      <div className="bg-white rounded shadow">
         <Line ref={chartRef} data={data} options={options} />
       </div>
     </div>
