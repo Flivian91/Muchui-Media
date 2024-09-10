@@ -47,11 +47,13 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
   const [category, setCategory] = useState("");
   const [image, setImage] = useState("")
   const [author, setAuthor] = useState('admin')
+  const [userId, setUserId] = useState(null)
   const ref = useCloseModel(onRequestClose);
 
   const handleContentChange = (value) => {
     setContent(value);
   };
+  async function loadUserInfo(){}
 
   const handleSubmit = () => {
     const newPost = {

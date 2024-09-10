@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GrFormView, GrFormViewHide } from "react-icons/gr";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "../supabase/supabaseClient";
+import EmailConfirmationModal from "../components/common/EmailConfirmationModel";
 
 const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [isModel, setIsModel] = useState(false);
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+
+  async function googleSignIn() {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  }
 
   async function signUpNewUser(userName, userEmail, userPassword) {
     const { data, error } = await supabase.auth.signUp({
@@ -18,38 +25,41 @@ const SignUp = () => {
       options: {
         data: {
           userName: userName,
-          role: "client",
+          role: "admin",
         },
       },
     });
     if (error) {
       alert(error.message);
     }
-    const user = {
-      username: userName,
-      password: userPassword,
-      email: userEmail,
-    };
-    createNewUser(user);
-    navigate("/signin");
+
+    if (data.user) {
+      setIsModel(true);
+      const { error: insertError } = await supabase
+        .from("Users") // Your users table
+        .insert([
+          {
+            id: data.user.id, // Use the Supabase user id as the unique identifier
+            email: data.user.email, // Insert the user's email or other details
+            username: data.user.user_metadata.userName,
+          },
+        ]);
+      if (insertError) {
+        console.log(insertError.message);
+      }
+    }
+
+    // navigate("/signin");
   }
   function handleSubmit(e) {
     e.preventDefault();
     if (password.length > 4 && email && name && password) {
       signUpNewUser(name, email, password);
-      console.log("Data is clean");
       setName("");
       setEmail("");
       setPassword("");
     } else {
       console.log("Invalid User Information");
-    }
-  }
-  // Create new User
-  async function createNewUser(user) {
-    const { error } = await supabase.from("Users").insert(user);
-    if (error) {
-      alert(error.message);
     }
   }
 
@@ -63,13 +73,14 @@ const SignUp = () => {
           <p className="text-center text-md font-light text-text tracking-wide">
             Let`s get started by creating free account
           </p>
+          {isModel && (
+            <EmailConfirmationModal
+              isOpen={true}
+              onClose={() => setIsModel(false)}
+            />
+          )}
         </div>
-        <form
-          onSubmit={(e) => handleSubmit(e)}
-          aria-autocomplete="off"
-          autoComplete="off"
-          className="flex flex-col gap-4"
-        >
+        <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-4">
           <div
             className={`border-[1.5px] rounded-[6px]  relative px-2 py-1 ${
               name.length > 4 ? "border-blue-500 " : " border-text-secondary/80"
@@ -173,7 +184,10 @@ const SignUp = () => {
           <p className="border-[0.5px] w-full"></p>
         </div>
         <div>
-          <button className="flex items-center justify-center transition-all duration-300 shadow-sm gap-2 w-full hover:border-blue-400 border py-2 rounded-[6px]">
+          <button
+            onClick={() => googleSignIn()}
+            className="flex items-center justify-center transition-all duration-300 shadow-sm gap-2 w-full hover:border-blue-400 border py-2 rounded-[6px]"
+          >
             <FcGoogle />{" "}
             <span className="text-text font-semibold tracking-wide">
               Sign up with google

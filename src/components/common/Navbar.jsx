@@ -8,9 +8,20 @@ import Sidebar from "./Sidebar";
 import SearchIcons from "./SearchIcons";
 import { BiCaretDown, BiCaretUp } from "react-icons/bi";
 import LinkButton from "./LinkButton";
+import { supabase } from "../../supabase/supabaseClient";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdown, setIsDropdown] = useState(false);
+  const [auth, setAuth] = useState(null);
+  const [role, setRole] = useState("client");
+
+  async function getSession() {
+    const { data } = await supabase.auth.getSession();
+    setAuth(data.session.user.aud);
+    setRole(data.session.user.user_metadata.role.toLowerCase());
+  }
+  getSession();
+
   return (
     <nav className="text-white px-2 md:py-4 py-3 shadow ">
       <div className=" flex justify-between items-center">
@@ -59,7 +70,13 @@ function Navbar() {
         <div className="flex items-center gap-4">
           <SearchIcons />
           <div className="hidden md:block">
-            <LinkButton link="signup">Get started</LinkButton>
+            {auth === "authenticated" ? (
+              <LinkButton link={role === "client" ? "client" : "admin"}>
+                Dashboard
+              </LinkButton>
+            ) : (
+              <LinkButton link="signup">Get started</LinkButton>
+            )}
           </div>
         </div>
         <Menu onOpen={() => setIsOpen(true)} />

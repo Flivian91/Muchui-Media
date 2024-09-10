@@ -79,9 +79,9 @@ const Users = () => {
           placeholder="Search user..."
           className="p-2 border border-secondary w-28 md:w-40 focus:w-44 transition-all duration-300 text-sm sm:text-base focus:border-secondary rounded outline-none focus:outline-none focus:ring-0"
         />
-        <button
+        <button disabled
           onClick={() => setIsModalOpen(true)}
-          className="bg-secondary text-white p-2 px-6 font-semibold rounded"
+          className="bg-gray-500 disabled:cursor-not-allowed text-white p-2 px-6 font-semibold rounded"
         >
           Add User
         </button>

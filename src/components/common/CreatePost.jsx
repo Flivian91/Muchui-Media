@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import CreatePostModal from "./CreatePostModal";
 
-function CreatePost({ children, role }) {
+function CreatePost({ children, role, onSubmit }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {

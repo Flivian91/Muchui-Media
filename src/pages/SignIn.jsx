@@ -17,6 +17,11 @@ const SignIn = () => {
       signInUser(email, password);
     }
   }
+  async function googleSignIn() {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  }
 
   async function signInUser(userEmail, userPassword) {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -130,7 +135,10 @@ const SignIn = () => {
           </Link>
         </div>
         <div>
-          <button className="flex items-center justify-center transition-all duration-300 shadow-sm gap-2 w-full hover:border-blue-400 border py-2 rounded-[6px]">
+          <button
+            onClick={() => googleSignIn()}
+            className="flex items-center justify-center transition-all duration-300 shadow-sm gap-2 w-full hover:border-blue-400 border py-2 rounded-[6px]"
+          >
             <FcGoogle />{" "}
             <span className="text-text font-semibold tracking-wide">
               Sign in with google
