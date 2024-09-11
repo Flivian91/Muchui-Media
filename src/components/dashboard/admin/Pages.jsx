@@ -1,8 +1,5 @@
 // src/components/Posts.js
-import React from "react";
-import { BiEdit } from "react-icons/bi";
-import { MdDelete, MdDeleteOutline } from "react-icons/md";
-import CategoryAddItem from "../../common/CategoryAddItem";
+
 import PageEditHomePage from "../../common/PageEditHomePage";
 import PageEditAboutPage from "../../common/PageEditAboutPage";
 
@@ -24,8 +21,8 @@ const Pages = () => {
         </button>
       </div>
       <div className="flex flex-col gap-5">
-        <PageEditHomePage/>
-        <PageEditAboutPage/>
+        <PageEditHomePage />
+        <PageEditAboutPage />
       </div>
     </div>
   );

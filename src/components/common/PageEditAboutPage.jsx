@@ -1,6 +1,53 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "../../supabase/supabaseClient";
 
 function PageEditAboutPage() {
+  const [homeData, setHomeData] = useState({});
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
+  const [biography, setBiography] = useState("");
+  const [mission, setMission] = useState("");
+
+  // Fetch data
+  async function fetchData() {
+    const { data, error } = await supabase.from("HomePage").select("*");
+    if (error) {
+      console.log(error.message);
+    }
+    if (data && data.length > 0) {
+      const info = data[0];
+      setHomeData(info);
+      setTitle(info.title);
+      setSubTitle(info.sub_title);
+      setBiography(info.biography);
+      setMission(info.mission);
+    }
+  }
+  useEffect(function () {
+    fetchData();
+  }, []);
+
+  // Handle data Update
+  async function updateData(data) {
+    const { error } = await supabase.from("HomePage").upsert(data);
+    if (error) {
+      console.log(error.message);
+    }
+    fetchData();
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const updatedData = {
+      id: homeData.id,
+      title,
+      sub_title: subTitle,
+      biography,
+      mission,
+    };
+    updateData(updatedData);
+  }
+
   return (
     <div>
       <div className="">
@@ -10,14 +57,21 @@ function PageEditAboutPage() {
         <div className="border border-dashed border-text/80 rounded py-3 px-2">
           <div className="flex items-center flex-col gap-4">
             <h1 className="text-2xl font-semibold">About Me Section</h1>
-            <form className="flex flex-col w-full items-center gap-5">
+            <form
+              onSubmit={(e) => handleSubmit(e)}
+              className="flex flex-col w-full items-center gap-5"
+            >
               <input
                 className="text-sm outline-none w-full focus:ring-0 focus:outline-none border-dashed border-accent rounded"
-                defaultValue={"About Sammy Muchui"}
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <input
                 className="text-sm outline-none w-full focus:ring-0 focus:outline-none border-dashed border-accent rounded"
-                defaultValue={"Meet Sammy Muchui"}
+                value={subTitle}
+                required
+                onChange={(e) => setSubTitle(e.target.value)}
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2  gap-4 w-full">
@@ -29,10 +83,10 @@ function PageEditAboutPage() {
                     cols={30}
                     id="biography"
                     rows={12}
+                    value={biography}
+                    required
+                    onChange={(e) => setBiography(e.target.value)}
                     className="text-sm outline-none w-full py-2 px-1  focus:ring-0 focus:outline-none border-dashed border-accent rounded"
-                    defaultValue={`Sammy Muchui is a seasoned journalist with a keen eye for uncovering the truth. With years of experience in the field, Sammy has reported on some of the most pressing issues of our time, bringing light to stories that matter. His dedication to integrity and authenticity has earned him a reputation as a trusted voice in journalism.
-
-Sammy holds a degree in Journalism from Muranga University and has worked with various renowned media outlets. His passion for storytelling is matched only by his commitment to ethical reporting.`}
                   ></textarea>
                 </div>
                 <div className="flex flex-col gap-4 w-full">
@@ -44,9 +98,9 @@ Sammy holds a degree in Journalism from Muranga University and has worked with v
                     id="mission"
                     rows={12}
                     className="text-sm outline-none w-full py-2 px-1  focus:ring-0 focus:outline-none border-dashed border-accent rounded"
-                    defaultValue={`At Muchui Media, our mission is to deliver insightful, accurate, and impactful journalism. We strive to be a beacon of truth in an age of misinformation, providing our audience with stories that inspire, inform, and provoke thoughtful discussion.
-
-We believe in the power of journalism to effect change and hold those in power accountable. Our commitment to our readers is unwavering – we pledge to uphold the highest standards of journalistic integrity in everything we do.`}
+                    required
+                    value={mission}
+                    onChange={(e) => setMission(e.target.value)}
                   ></textarea>
                 </div>
               </div>

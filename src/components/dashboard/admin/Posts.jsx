@@ -17,7 +17,7 @@ const Posts = () => {
       if (error) {
         console.log(error.message);
       }
-      setPosts(data);
+      setPosts(data || []);
       setIsLoading(false);
     } catch (err) {
       console.log(err.message);
@@ -26,15 +26,6 @@ const Posts = () => {
   useEffect(function () {
     fetchPosts();
   }, []);
-  console.log(posts);
-
-  // Create New Posts
-  async function createNewPost(data) {
-    const { error } = supabase.from("Posts").insert(data);
-    if (error) {
-      console.log(error.message);
-    }
-  }
 
   return (
     <div className="flex flex-col gap-2">
@@ -45,7 +36,7 @@ const Posts = () => {
           placeholder="Search post..."
           className="p-2 border border-secondary w-28 md:w-40 focus:w-44 transition-all duration-300 text-sm sm:text-base focus:border-secondary rounded outline-none focus:outline-none focus:ring-0"
         />
-        <CreatePost onSubmit={createNewPost} role={"add"}>Add Post</CreatePost>
+        <CreatePost role={"add"}>Add Post</CreatePost>
       </div>
       <div className="min-w-full bg-inherit flex-grow">
         {isLoading ? (

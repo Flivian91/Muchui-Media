@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { GiCancel } from "react-icons/gi";
 import { useCloseModel } from "../../hooks/useCloseModel";
+import { supabase } from "../../supabase/supabaseClient";
 
 // Ensure the modal root element is set for accessibility
 Modal.setAppElement("#root");
@@ -45,30 +46,74 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [image, setImage] = useState("")
-  const [author, setAuthor] = useState('admin')
-  const [userId, setUserId] = useState(null)
+  const [imageUrl, setImageUrl] = useState("");
+  const [author, setAuthor] = useState("admin");
+  const [userId, setUserId] = useState(null);
   const ref = useCloseModel(onRequestClose);
+
+  // Create New Posts
+  async function createNewPost(data) {
+    const { error } = await supabase.from("Posts").insert(data);
+    if (error) {
+      console.log(error.message);
+    }
+  }
+
+  // Handle Image Upload
+  async function uploadImage(file) {
+    try {
+      // Upload image
+      const { data, error } = await supabase.storage
+        .from("image_url")
+        .upload(`public/${Date.now()}`, file);
+      console.log(data);
+
+      if (error) {
+        console.log(error.message);
+      }
+
+      // Get the public image
+      const { publicURL } = supabase.storage
+        .from("image_url")
+        .getPublicUrl(`public/${file.name}`);
+      console.log(publicURL);
+      setImageUrl(publicURL);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const handleContentChange = (value) => {
     setContent(value);
   };
-  async function loadUserInfo(){}
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      uploadImage(file);
+    }
+  };
+  async function loadUserInfo() {
+    const { data } = await supabase.auth.getUser();
+    setUserId(data.user.id);
+  }
+  useEffect(function () {
+    loadUserInfo();
+  }, []);
 
   const handleSubmit = () => {
     const newPost = {
+      user_id: userId,
       title,
       category,
+      image_url: imageUrl,
       content,
-      image,
-      author
+      author,
     };
     onSubmit(newPost);
     setContent("");
     setTitle("");
     setCategory("");
-    setImage("")
-    setAuthor('admin')
+    setAuthor("admin");
     onRequestClose();
   };
 
@@ -87,7 +132,10 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       contentLabel="Create Post Modal"
     >
-      <div ref={ref} className="bg-white p-6 rounded-lg w-full max-w-2xl h-screen overflow-auto">
+      <div
+        ref={ref}
+        className="bg-white p-6 rounded-lg w-full max-w-2xl h-screen overflow-auto"
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">Create Post</h2>
           <button
@@ -133,9 +181,9 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
             </label>
             <input
               type="file"
+              accept="image/*"
               name="image"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              onChange={handleFileUpload}
               id="image"
               className="file:bg-pink-500 file:border-none file:py-1 file:rounded-sm file:text-text file:focus:outline-none file:focus:border-none file:ring-0 file:outline-none "
             />

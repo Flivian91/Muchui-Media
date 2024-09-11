@@ -13,7 +13,7 @@ const Users = () => {
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState([]);
   // const [numRecord, setNumRecord] = useState(false);
-  let searchedUsers = users;
+  let searchedUsers = users ;
   // Load users From supabase database
   useEffect(() => {
     fetchUsers();
@@ -23,7 +23,7 @@ const Users = () => {
       setIsLoading(true);
       const { data } = await supabase
         .from("Users")
-        .select("id, username, password,email");
+        .select("id, username,email");
       setUsers(data);
       setIsLoading(false);
     } catch (err) {
@@ -69,6 +69,7 @@ const Users = () => {
     // setNumRecord(false);
   }
   handleSearch(query);
+  
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Users</h1>
