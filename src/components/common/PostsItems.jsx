@@ -1,14 +1,17 @@
 /* eslint-disable react/prop-types */
-import image from "../../assets/images/img/image-1.jpg";
 import profile from "../../assets/images/img/profile-2.jpg";
 import { BsEye } from "react-icons/bs";
 import { BiChat, BiEdit, BiLink, BiTrash } from "react-icons/bi";
 import { Link } from "react-router-dom";
-function PostsItems({ post }) {
+function PostsItems({ post, onUpdate, onDelete }) {
   return (
     <div className="flex flex-col gap-2 bg-white py-3 px-2 shadow rounded group ">
       <div className="relative overflow-hidden">
-        <img src={image} className="rounded-t-md" alt="post image" />
+        <img
+          src={post.image_url}
+          className="rounded-t-md h-[145px] w-full"
+          alt="post image"
+        />
         <div className="flex px-2 items-center justify-between sm:justify-evenly absolute opacity-0 group-hover:opacity-100 transition-all duration-700 bottom-0 left-0 w-full py-2 backdrop-blur-[2px]">
           <Link
             to={`/articles/post-${post.id}`}
@@ -21,9 +24,10 @@ function PostsItems({ post }) {
             title="edit"
             className="p-2 bg-surface rounded-full text-secondary hover:text-secondary/70 transition-all duration-200"
           >
-            <BiEdit className="w-5 h-5" />
+            <BiEdit onClick={() => onUpdate(post.id)} className="w-5 h-5" />
           </button>
           <button
+            onClick={() => onDelete(post.id)}
             title="delete"
             className="p-2 bg-surface rounded-full text-red-500 hover:text-red-500/70 transition-all duration-200"
           >

@@ -3,8 +3,7 @@ import { useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import CreatePostModal from "./CreatePostModal";
 
-
-function CreatePost({ children, role }) {
+function CreatePost({ children, role, fetchLoad }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -14,13 +13,7 @@ function CreatePost({ children, role }) {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  
 
-
-  const handleSubmitPost = (newPost) => {
-    console.log("Post newPost:", newPost);
-    // Add logic to save the post content (e.g., send to server)
-  };
   return (
     <>
       <button
@@ -35,7 +28,7 @@ function CreatePost({ children, role }) {
       <CreatePostModal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
-        onSubmit={handleSubmitPost}
+        fetchLoad={fetchLoad}
       />
     </>
   );

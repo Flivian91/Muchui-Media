@@ -42,18 +42,19 @@ const formats = [
   "video",
 ];
 
-const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
+const CreatePostModal = ({ isOpen, onRequestClose, fetchLoad }) => {
+  const [categories, setCategories] = useState([]);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [author, setAuthor] = useState("admin");
   const [userId, setUserId] = useState(null);
   const ref = useCloseModel(onRequestClose);
 
   // Create New Posts
   async function createNewPost(data) {
     const { error } = await supabase.from("Posts").insert(data);
+    fetchLoad();
     if (error) {
       console.log(error.message);
     }
@@ -66,21 +67,20 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
       const { data, error } = await supabase.storage
         .from("image_url")
         .upload(`public/${Date.now()}`, file);
-      console.log(data);
 
       if (error) {
         console.log(error.message);
       }
-
-      // Get the public image
-      const { publicURL } = supabase.storage
-        .from("image_url")
-        .getPublicUrl(`public/${file.name}`);
-      console.log(publicURL);
-      setImageUrl(publicURL);
+      getPublicImage(data.fullPath);
     } catch (err) {
       console.log(err);
     }
+  }
+  // Get the public image
+  // https://dvvcmzddgqymakkbwekd.supabase.co/storage/v1/object/public/image_url/public/1726078125793
+  async function getPublicImage(file) {
+    const image = `https://dvvcmzddgqymakkbwekd.supabase.co/storage/v1/object/public/${file}`;
+    setImageUrl(image);
   }
 
   const handleContentChange = (value) => {
@@ -104,16 +104,14 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
     const newPost = {
       user_id: userId,
       title,
-      category,
       image_url: imageUrl,
       content,
-      author,
+      category_id: "277e17fd-8101-42ec-84d6-bf14122cc343",
     };
-    onSubmit(newPost);
+    createNewPost(newPost);
     setContent("");
     setTitle("");
     setCategory("");
-    setAuthor("admin");
     onRequestClose();
   };
 
@@ -123,6 +121,28 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
       setContent("");
     };
   }, []);
+
+  // Load Roles
+  async function loadCategories() {
+    const { data, error } = await supabase
+      .from("Categories")
+      .select("id, name");
+    if (error) {
+      console.log(error.message);
+    }
+    setCategories(data || []);
+  }
+  useEffect(function () {
+    loadCategories();
+  }, []);
+  useEffect(
+    function () {
+      if (categories.length > 0) {
+        setCategory(categories[0].id);
+      }
+    },
+    [categories]
+  );
 
   return (
     <Modal
@@ -170,9 +190,11 @@ const CreatePostModal = ({ isOpen, onRequestClose, onSubmit }) => {
               id="category"
               className="border-gray-400/50 rounded-sm focus:ring-0 focus:outline-none focus:border-gray-400/50"
             >
-              <option value="sport">Sport</option>
-              <option value="health">Health</option>
-              <option value="science">Science</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex flex-col gap-2">
