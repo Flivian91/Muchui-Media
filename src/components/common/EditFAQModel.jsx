@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useCloseModel } from "../../hooks/useCloseModel";
 import { GiCancel } from "react-icons/gi";
@@ -7,14 +7,14 @@ import { GiCancel } from "react-icons/gi";
 // Ensure the modal root element is set for accessibility
 Modal.setAppElement("#root");
 
-const AddFAQModel = ({ isOpen, onRequestClose, onSubmit }) => {
+const EditFAQModel = ({ isOpen, onRequestClose, onSubmit, data }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const ref = useCloseModel(onRequestClose);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (question && answer) {
+    if (question || answer) {
       onSubmit({ question, answer });
       setQuestion("");
       setAnswer("");
@@ -23,6 +23,13 @@ const AddFAQModel = ({ isOpen, onRequestClose, onSubmit }) => {
       alert("Question and Answer are required");
     }
   };
+  useEffect(
+    function () {
+      setQuestion(data.question);
+      setAnswer(data.answer);
+    },
+    [data]
+  );
 
   return (
     <Modal
@@ -94,4 +101,4 @@ const AddFAQModel = ({ isOpen, onRequestClose, onSubmit }) => {
   );
 };
 
-export default AddFAQModel;
+export default EditFAQModel;

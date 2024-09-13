@@ -14,7 +14,7 @@ const EditRolesModel = ({ isOpen, onRequestClose, onSubmit, users, data }) => {
   const ref = useCloseModel(onRequestClose);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (selectedUser && roleName) {
+    if (selectedUser || roleName) {
       onSubmit({ user_id: selectedUser, role: roleName, permissions });
       setSelectedUser("");
       setRoleName("");
@@ -89,7 +89,7 @@ const EditRolesModel = ({ isOpen, onRequestClose, onSubmit, users, data }) => {
               required
             >
               <option value="admin">Admin</option>
-              <option value="user">User</option>
+              <option value="client">Client</option>
             </select>
           </div>
           <div className="flex flex-col gap-2 mb-4">

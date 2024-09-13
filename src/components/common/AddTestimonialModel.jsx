@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { useCloseModel } from "../../hooks/useCloseModel";
 import { GiCancel } from "react-icons/gi";
+import { supabase } from "../../supabase/supabaseClient";
 
 // Ensure the modal root element is set for accessibility
 Modal.setAppElement("#root");
@@ -11,15 +12,52 @@ const AddTestimonialModel = ({ isOpen, onRequestClose, onSubmit }) => {
   const [role, setRole] = useState("");
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [imageType, setImageType] = useState("");
   const ref = useCloseModel(onRequestClose);
+
+  // Function to upload image
+  // Handle Image Upload
+  async function uploadImage(file) {
+    try {
+      // Upload image
+      console.log(file);
+
+      const { data, error } = await supabase.storage
+        .from("image_url")
+        .upload(`testimonials/${Date.now()}`, file);
+
+      if (error) {
+        console.log(error.message);
+      }
+      getPublicImage(data.fullPath, file.type);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  // Get the public image
+  // https://dvvcmzddgqymakkbwekd.supabase.co/storage/v1/object/public/image_url/public/1726078125793
+  //https://dvvcmzddgqymakkbwekd.supabase.co/storage/v1/object/public/image_url/testimonials/1726157961029
+  function getPublicImage(file, type) {
+    const image = `https://dvvcmzddgqymakkbwekd.supabase.co/storage/v1/object/public/${file}`;
+    setImageUrl(image);
+    setImageType(type);
+  }
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      uploadImage(file);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name && role && content) {
-      onSubmit({ name, role, content, imageUrl });
+      onSubmit({ name, role, content, image: imageUrl, image_type:imageType });
       setName("");
       setRole("");
       setContent("");
+      setImageType("")
       setImageUrl("");
       onRequestClose();
     } else {
@@ -97,8 +135,8 @@ const AddTestimonialModel = ({ isOpen, onRequestClose, onSubmit }) => {
             <input
               type="file"
               name="imageUrl"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
+              accept="image/*"
+              onChange={(e) => handleFileUpload(e)}
               id="imageUrl"
               className="file:cursor-pointer file:bg-secondary file:border-none file:text-sm file:font-bold file:py-1 file:rounded file:px-6 focus:ring-0 file:text-white focus:outline-none focus:border-gray-400/50"
             />

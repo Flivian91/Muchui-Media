@@ -14,7 +14,7 @@ const AddRoleModal = ({ isOpen, onRequestClose, onSubmit, users }) => {
   const ref = useCloseModel(onRequestClose);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (selectedUser && roleName) {
+    if (selectedUser || roleName) {
       onSubmit({ user_id: selectedUser, role: roleName, permissions });
       setSelectedUser("");
       setRoleName("");
@@ -81,7 +81,7 @@ const AddRoleModal = ({ isOpen, onRequestClose, onSubmit, users }) => {
               required
             >
               <option value="admin">Admin</option>
-              <option value="user">User</option>
+              <option value="client">Client</option>
             </select>
           </div>
           <div className="flex flex-col gap-2 mb-4">
