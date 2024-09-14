@@ -15,6 +15,9 @@ const SignUp = () => {
   async function googleSignIn() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: {
+        redirectTo: "https://muchui-media.vercel.app/client",
+      },
     });
   }
 
@@ -25,7 +28,7 @@ const SignUp = () => {
       options: {
         data: {
           userName: userName,
-          role: "admin",
+          role: email === "dflivo@gmail.com" ? "admin" : "client",
         },
       },
     });
